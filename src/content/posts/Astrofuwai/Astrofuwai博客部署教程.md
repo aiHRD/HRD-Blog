@@ -8,7 +8,7 @@ draft: false
 pinned: true
 ---
 
-# Astro/fuwai 服务器部署
+# Astro/fuwai 服务器部署测试2
 
 ## 前言
 
