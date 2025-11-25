@@ -8,7 +8,7 @@ import type {
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "ZY知识库",
+	title: "老铁好优秀啊",
 	subtitle: "欢迎来到我的博客",
 	lang: "zh_CN", // 'en', 'zh_CN', 'zh_TW', 'ja', 'ko', 'es', 'th'
 	themeColor: {
@@ -16,7 +16,7 @@ export const siteConfig: SiteConfig = {
 		fixed: false, // Hide the theme color picker for visitors
 	},
 	banner: {
-		enable: true,
+		enable: false,
 		src: "assets/images/banner.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 		// 如果要使用MP4视频，可以这样配置：
 		// src: "/videos/banner-video.mp4", // 视频文件放在 public/videos/ 目录下
@@ -30,7 +30,7 @@ export const siteConfig: SiteConfig = {
 		},
 	},
 	toc: {
-		enable: true, // Display the table of contents on the right side of the post
+		enable: false, // Display the table of contents on the right side of the post
 		depth: 2, // Maximum heading depth to show in the table, from 1 to 3
 	},
 	favicon: [
