@@ -30,8 +30,6 @@ pinned: true
 
 ## 页面基础配置
 
-大部分页面配置都在`src/config.ts`文件中完成,大部分配置都有注释。重点讲解我添加的配置。
-
 ### banner图换成视频
 
 将`type`设置为`video`，然后将`src`指向视频`MP4`格式的视频文件，注意视频文件放在 `public/videos/` 目录下。
