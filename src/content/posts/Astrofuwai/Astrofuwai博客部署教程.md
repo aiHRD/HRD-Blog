@@ -8,7 +8,7 @@ draft: false
 pinned: true
 ---
 
-# Astro/fuwai博客配置教程
+# Astro/fuwai 服务器部署
 
 ## 前言
 
