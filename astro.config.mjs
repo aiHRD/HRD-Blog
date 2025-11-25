@@ -26,8 +26,8 @@ import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-cop
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://aiHRD.github.io',
-	base: '/HRD-Blog/',
+	site: 'https://blog.cdyxd.top/',
+	//base: '/HRD-Blog/',
 	trailingSlash: "ignore",
 	integrations: [
 		tailwind({
