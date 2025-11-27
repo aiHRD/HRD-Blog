@@ -3,7 +3,7 @@ services:
   web:
     build: ./docker
     ports:
-      - "4321:4321"
+      - "127.0.0.1:8080:80"   # 只允许本机访问
     volumes:
-      - /www/wwwroot/default/newblog/dist:/usr/share/nginx/html:ro
+      - ./dist:/usr/share/nginx/html:ro
     restart: unless-stopped
