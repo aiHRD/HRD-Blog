@@ -3,7 +3,7 @@ services:
   web:
     build: ./docker
     ports:
-      - "127.0.0.1:8080:80"   # 只允许本机访问
+      - "127.0.0.1:8080:80"
     volumes:
       - ./dist:/usr/share/nginx/html:ro
     restart: unless-stopped
