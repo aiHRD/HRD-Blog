@@ -6,5 +6,5 @@ services:
     ports:
       - "127.0.0.1:8080:80"
     volumes:
-      - /cyjk/hrdblog:/usr/share/nginx/html:ro
+      - /cyjk/hrdblog/dist:/usr/share/nginx/html:ro
     restart: unless-stopped
