@@ -1,41 +1,77 @@
-name: Deploy with Volume Mount
+# 工作流名称：使用 Docker Compose 部署 Astro 静态站点
+name: Docker Compose Deploy
 
+# 触发条件：
+# - 当向 main 分支推送代码时自动触发
+# - 或者在 GitHub Actions 页面手动点击“Run workflow”触发
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
+# 定义一个名为 deploy 的作业（job）
 jobs:
   deploy:
+    # 在最新的 Ubuntu 虚拟机环境中运行此作业
     runs-on: ubuntu-latest
+
+    # 作业包含多个步骤（steps）
     steps:
+      # 步骤 1：检出（拉取）当前仓库的代码到运行环境中
       - name: Checkout
         uses: actions/checkout@v4
 
+      # 步骤 2：安装依赖并构建 Astro 项目，生成 dist/ 目录
+      # 使用官方 Astro GitHub Action，会自动处理 Node.js 环境、依赖安装和构建
       - name: Install and Build (Astro)
         uses: withastro/action@v3
 
+      # 步骤 3：调试用 — 检查关键文件是否存在（用于排查问题）
+      - name: Debug file existence
+        run: |
+          # 列出当前目录所有文件（确认项目结构）
+          ls -la
+          # 检查 dist/ 是否存在（构建产物）
+          ls -la dist/ || echo "dist/ not found"
+          # 检查 docker/ 目录是否存在（含 Dockerfile 和 nginx 配置）
+          ls -la docker/ || echo "docker/ not found"
+          # 检查根目录是否有 docker-compose.yml
+          test -f docker-compose.yml && echo "docker-compose.yml exists" || echo "docker-compose.yml missing"
+
+      # 步骤 4：将构建产物和部署配置文件上传到远程服务器
       - name: Upload Files to Server
         uses: appleboy/scp-action@v0.1.6
         with:
+          # 服务器 IP 地址（从 GitHub Secrets 中读取）
           host: ${{ secrets.SERVER_IP }}
+          # SSH 登录用户名（如 root、ubuntu 等）
           username: ${{ secrets.SSH_USERNAME }}
+          # SSH 私钥（用于免密登录，必须提前配置在 Secrets 中）
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/*"
-          target: "/cyjk/blog"  # 直接上传到挂载目录
+          # 要上传的文件列表（逗号分隔）：
+          #   - dist/*       → Astro 构建生成的静态文件
+          #   - docker/*     → 包含 Dockerfile 和 nginx/default.conf
+          #   - docker-compose.yml → Docker Compose 配置文件
+          source: "dist/*,docker/*,docker-compose.yml"
+          # 上传到服务器的目标目录（确保该目录存在且有写权限）
+          target: "/cyjk/hrdblog"
 
-      - name: Start/Restart Container
+      # 步骤 5：在服务器上执行部署命令（通过 SSH）
+      - name: Deploy with Docker Compose
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # 直接运行Nginx容器并挂载目录
-            docker stop astro-app || true
-            docker rm astro-app || true
-            docker run -d \
-              --name astro-app \
-              -p 4321:80 \
-              -v /cyjk/blog:/usr/share/nginx/html:ro \
-              nginx:alpine
+            # 进入部署目录
+            cd /cyjk/hrdblog
+
+            # 停止并删除旧的容器（如果存在）
+            docker-compose down
+
+            # 重新构建镜像（仅当 Dockerfile 或构建上下文变化时才真正 rebuild）并启动服务
+            docker-compose up -d --build
+
+            # 清理无用的 Docker 镜像、容器等，释放磁盘空间
+            docker system prune -f
