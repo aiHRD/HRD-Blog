@@ -8,7 +8,7 @@ draft: false
 pinned: true
 ---
 
-# Astro/fuwai 服务器部署测试2
+# CI/CD流程 - Astro/fuwai博客配置教程
 
 ## 前言
 
