@@ -1,5 +1,5 @@
 ---
-title: Astro/fuwai博客配置教程
+title: CI/CD流程 - Astro/fuwai博客配置教程
 published: 2025-08-11
 description: 新博客站点部署也有2周多时间了，新站的访问量不是很多，但是我发现有人是用我的fuwai_zyplj仓库去修改配置然后再部署自己的博客
 tags: [博客教程]
