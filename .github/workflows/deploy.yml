@@ -51,7 +51,7 @@ jobs:
           # 要上传的文件列表（逗号分隔）：
           #   - dist/*       → Astro 构建生成的静态文件
           #   - docker/*     → 包含 Dockerfile 和 nginx/default.conf
-          #   - docker-compose.yml → Docker Compose 配置文件
+          #   - docker compose.yml → Docker Compose 配置文件
           source: "dist/*,docker/*,docker-compose.yml"
           # 上传到服务器的目标目录（确保该目录存在且有写权限）
           target: "/cyjk/hrdblog"
@@ -68,10 +68,10 @@ jobs:
             cd /cyjk/hrdblog
 
             # 停止并删除旧的容器（如果存在）
-            docker-compose down
+            docker compose down
 
             # 重新构建镜像（仅当 Dockerfile 或构建上下文变化时才真正 rebuild）并启动服务
-            docker-compose up -d --build
+            docker compose up -d --build
 
             # 清理无用的 Docker 镜像、容器等，释放磁盘空间
             docker system prune -f
