@@ -1,9 +1,10 @@
 version: '3.8'
 services:
   web:
+    container_name: HRD-Blog
     build: ./docker
     ports:
       - "127.0.0.1:8080:80"
     volumes:
-      - /cyjk/hrdblog/dist:/usr/share/nginx/html:ro
+      - /cyjk/hrdblog:/usr/share/nginx/html:ro
     restart: unless-stopped
